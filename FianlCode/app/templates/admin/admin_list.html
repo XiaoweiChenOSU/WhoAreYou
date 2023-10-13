@@ -1,0 +1,101 @@
+{% extends 'admin/admin.html' %}
+
+{% import 'ui/admin_page.html' as pg %}
+
+{% block css %}
+    <style>
+        * {
+            font-family: "Microsoft YaHei";
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            vertical-align: middle;
+            text-align: center;
+        } 
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>Management System</h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Manager Management</a></li>
+            <li class="active">Manager List</li>
+        </ol>
+    </section>
+    <section class="content" id="showcontent">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <h3 class="box-title">Manager List</h3>
+                        {# <div class="box-tools"> #}
+                            {# <div class="input-group input-group-sm" style="width: 150px;">#}
+                                {# <input type="text" name="table_search" class="form-control pull-right" placeholder="Please input the key words ...">#}
+                                {# <div class="input-group-btn"> #}
+                                    {# <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> #}
+                                    {# </button> #}
+                                {# </div> #}
+                            {#</div> #}
+                        {# </div> #}
+                    </div>
+                    <div class="box-body table-responsive no-padding">
+                        {# Delete video successfully hint(category_filter:category flash) #}
+                            {% for msg in get_flashed_messages(category_filter=['ok']) %}
+                                <div class="alert alter-success alter-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                    <h4><i class='icon fa fa-check'></i>Congratulations,operate successfully!</h4>
+                                        {{ msg }}
+                                </div>
+                            {% endfor %}
+                        {# Delete video successfully hint(category_filter:category flash) #}
+                            {% for msg in get_flashed_messages(category_filter=['ok']) %}
+                                <div class="alert alter-success alter-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                                    <h4><i class='icon fa fa-check'></i>Congratulations,operate successfully!</h4>
+                                        {{ msg }}
+                                </div>
+                            {% endfor %}
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr>
+                                    <th>Manager_ID</th>
+                                    <th>Manager Name</th>
+                                    <th>Manager Style</th>
+                                    <th>Manager Role</th>
+                                    <th>Add Time</th>
+                                </tr>
+                                {% for v in page_data.items %}
+                                <tr>
+                                    <td>{{ v.id }}</td>
+                                    <td>{{ v.name }}</td>
+                                    {% if v.is_super == 0 %}
+                                    <td>Super Manager</td>
+                                    {% else %}
+                                    <td>Normal Manager</td>
+                                    {% endif %}
+                                    <td>{{ v.role.name }}</td>
+                                    <td>{{ v.addtime }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>        
+                    </div>
+                    <div class="box-footer clearfix">
+                        {# import the backend page template #}
+                        {{ pg.page(page_data,'admin.admin_list',pages_num)}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){
+            $('#g-13').addClass('active');
+            $('#g-13-2').addClass('active');
+        });
+    </script>
+{% endblock %}

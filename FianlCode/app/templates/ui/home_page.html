@@ -1,0 +1,39 @@
+{#Unified template for background page numbers#}
+
+{% macro page(data,url,pages) -%}
+{% if data %}
+<ul class="pagination pagination-sm no-margin pull-right">
+    {#Home#}
+    <li><a href="{{ url_for(url,page=1) }}">Home</a></li>
+
+    {#Previous Page#}
+    {% if data.has_prev %}  {# if exist, display #}
+    <li><a href="{{ url_for(url,page=data.prev_num) }}">Previous</a></li>
+    {% else %} {# Click without response on the previous page #}
+    <li class="disabled"><a href="#">Previous</a></li>
+    {% endif %}
+
+    {#Current Page#}
+    {% for v in range(1,pages+1)%} 
+        {% if v == data.page %}
+            <li class="active"><a href="#">{{ v }}</a></li> {# if current page, then activate #}
+        {% elif v>data.page and v-data.page < 3 %}
+            <li><a href="{{ url_for(url,page=v) }}">{{ v }}</a></li>
+        {% elif v<data.page and v-data.page > -3%}  
+            <li><a href="{{ url_for(url,page=v) }}">{{ v }}</a></li>  
+        {% endif %}
+    {% endfor %}
+
+    {#Next Page#}
+    {% if data.has_next %}
+    <li><a href="{{ url_for(url,page=data.next_num) }}">Next</a></li>
+    {% else %}
+    <li class="disabled"><a href="#">Next</a></li>
+    {% endif %}
+
+    {#End Page#}
+    <li><a href="{{ url_for(url,page=data.pages) }}">Last</a></li>
+
+</ul>
+{% endif %}
+{%- endmacro %}

@@ -1,0 +1,45 @@
+{% extends 'home/home.html' %}
+
+{% import 'ui/home_page.html' as pg %}
+
+{% block content %}
+    {% include 'home/menu.html' %}
+    <div class="col-md-9">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;Login Log</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <tr>
+                        <td style="width:10%">Log_ID</td>
+                        <td style="width:30%">Login Time</td>
+                        <td style="width:30%">Login IP</td>
+                    {# <td style="width:30%">Login Address</td>#}
+                    </tr>
+                    {% for v in page_data.items %}
+                        <tr>
+                            <td>{{ v.id }}</td>
+                            <td>{{ v.addtime }}</td>
+                            <td>{{ v.ip }}</td>
+                        {# <td>New York</td> #}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12 text-center">
+        {# Introducing background page template #}
+        {{ pg.page(page_data,'home.loginlog',pages_num) }}
+    </div>
+{% endblock %}
+
+{#Add JS: Login log module for activating the member center when the mouse clicks on the module#}
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('#m-4').addClass('active');
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'admin/admin.html' %}
+
+{% import 'ui/admin_page.html' as pg %}
+
+{% block css %}
+    <style>
+        * {
+            font-family: "Microsoft YaHei";
+        }
+
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+    <section class="content-header">
+        <h1>Management System</h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i>Preview Management</a></li>
+            <li class="active">Preview List</li>
+        </ol>
+    </section>
+    <section class="content" id="showcontent">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Preview List</h3>
+{#                        <div class="box-tools">#}
+{#                            <div class="input-group input-group-sm" style="width: 150px;">#}
+{#                                <input type="text" name="table_search" class="form-control pull-right"#}
+{#                                       placeholder="Please input the key word...">#}
+{##}
+{#                                <div class="input-group-btn">#}
+{#                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>#}
+{#                                    </button>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+                    </div>
+                    <form role="form" method="post" enctype="multipart/form-data">
+                        <div class="box-body">
+                            {# Delete Preview Successfully Hint(category_filter:category flash) #}
+                            {% for msg in get_flashed_messages(category_filter=['ok']) %}
+                                <div class="alert alert-success alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-check"></i> Congratulations, Operate Successfully</h4>
+                                        {{ msg }}
+                                </div>
+                            {% endfor %}
+                            {# Delete Preview falied Hint #}
+                            {% for msg in get_flashed_messages(category_filter=['err']) %}
+                                <div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <h4><i class="icon fa fa-ban"></i> Sorry, Operate Failed</h4>
+                                        {{ msg }}
+                                </div>
+                            {% endfor %}
+                            <table class="table table-hover">
+                                <tbody>
+                                <tr>
+                                    <th>Preview_ID</th>
+                                    <th>Preview Title</th>
+                                    <th>Preview Cover</th>
+                                    <th>Add Time</th>
+                                    <th>Operational Matters</th>
+                                </tr>
+                                    {# 排列标签 #}
+                                {% for v in page_data.items %}
+                                <tr>
+                                    <td>{{ v.id }}</td>
+                                    <td>{{ v.title }}</td>
+                                    <td>
+                                        <img src="{{ url_for('static',filename='uploads/' + v.logo) }}" style="width: 140px;" class="img-responsive center-block" alt="">
+                                    </td>
+                                    <td>{{ v.addtime }}</td>
+                                    <td>
+                                        <a href="{{ url_for('admin.preview_edit',id=v.id) }}" class="label label-success">Edit</a>
+                                        &nbsp;
+                                        <a href="{{ url_for('admin.preview_del',id=v.id) }}" class="label label-danger">Delete</a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer">
+                            {# Introduce Backend page template #}
+                            {{ pg.page(page_data,'admin.preview_list',pages_num) }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block js %}
+    <script>
+        $(document).ready(function () {
+            $('#g-6').addClass('active');
+            $('#g-6-2').addClass('active');
+        });
+    </script>
+{% endblock %}

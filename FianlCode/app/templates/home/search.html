@@ -1,0 +1,41 @@
+{% extends 'home/home.html' %}
+
+{% import 'ui/search_page.html' as pg%}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb" style="margin-top:6px;">
+                <li>Related to "{{ key }}" contents,total {{ total_count }}, including {{ movie_count}} movies, {{ music_count}} music, and {{ book_count}} books</li>
+            </ol>
+        </div>
+        <div class="col-md-12">
+
+            {% for v in page_data.items %}
+                <div class="media">
+                    <div class="media-left">
+                        <a href="{{ url_for('home.play',id=v.id,page=1) }}" target="_blank">
+                            {% if v.logo %}
+                                <img class="media-object" src="{{ url_for('static',filename='uploads/' + v.logo) }}"
+                                    style="width: 200px;height: 130px" alt="{{ v.title }}">
+                            {% else %}
+                                <img data-src="holder.js/100x100" style="margin-top: 6px" class="img-responsive img-rounded">
+                            {% endif %}    
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading">{{ v.title }}<a href="{{ url_for('home.play',id=v.id,page=1) }}"
+                                  target="_blank" class="label label-primary pull-right">
+                            <span class="glyphicon glyphicon-play"></span>Show Content</a></h4>
+                        {{ v.info }}
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="col-md-12 text-center">
+            {# introduce backend page template #}
+            {{ pg.page(page_data,'home.search',pages_num) }}
+        </div>
+    </div>
+{% endblock %}
